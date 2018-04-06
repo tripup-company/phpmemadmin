@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
@@ -51,21 +52,18 @@
  * @version    Git: $Id$
  * @link       https://github.com/clickalicious/phpMemAdmin
  */
-
 $path = realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
 define(
-    'CLICKALICIOUS_PHPMEMADMIN_BASE_PATH',
-    $path
+        'CLICKALICIOUS_PHPMEMADMIN_BASE_PATH', $path
 );
 
 // Is composer setup we're running in?
 if (true === file_exists('../vendor/autoload.php')) {
     include_once '../vendor/autoload.php';
-
 } else {
     set_include_path(
-        get_include_path() . PATH_SEPARATOR . $path
+            get_include_path() . PATH_SEPARATOR . $path
     );
 }
 
@@ -84,15 +82,24 @@ if (file_exists(CLICKALICIOUS_PHPMEMADMIN_BASE_PATH . 'app/.config') === true) {
 }
 
 $config = json_decode(
-    file_get_contents($config)
+        file_get_contents($config)
 );
+
+// LOAD AND REPLASE CONFIG FROM ENV
+
+$config->username = !empty(getenv("USER_NAME")) ? getenv("USER_NAME") : $config->username;
+$config->password = !empty(getenv("USER_PASS")) ? getenv("USER_PASS") : $config->password;
+$config->cluster->name = !empty(getenv("CLUSTER_NAME")) ? getenv("CLUSTER_NAME") : $config->cluster->name;
+$config->cluster->hosts[0]->host = !empty(getenv("MEMCACHE_HOST")) ? getenv("MEMCACHE_HOST") : $config->cluster->hosts[0]->host ;
+$config->cluster->hosts[0]->port = !empty(getenv("MEMCACHE_PORT")) ? getenv("MEMCACHE_PORT") : $config->cluster->hosts[0]->port ;
+$config->try_unserialize = !empty(getenv("TRY_UNSERIALIZE")) ? getenv("TRY_UNSERIALIZE") : $config->try_unserialize;
+
 
 /**
  * Init the applications core ...
  */
 $app = new \Clickalicious\PhpMemAdmin\App(
-    $config,
-    new \Clickalicious\Memcached\Client()       //\\ Memcached.php client as master to clone
+        $config, new \Clickalicious\Memcached\Client()       //\\ Memcached.php client as master to clone
 );
 
 /**
@@ -104,7 +111,6 @@ $app = new \Clickalicious\PhpMemAdmin\App(
 if ($config->render->auto === true) {
 
     echo $app->render(
-        $_SERVER['SCRIPT_NAME'],
-        $_GET
+            $_SERVER['SCRIPT_NAME'], $_GET
     );
 }

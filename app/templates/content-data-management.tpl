@@ -36,9 +36,6 @@
                                     <th class="one_t">Key</th>
                                     <th class="one_h">Value</th>
                                     <th>Bytes</th>
-                                    <th>Type</th>
-                                    <th>Flags</th>
-                                    <th>CAS</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>

@@ -141,16 +141,13 @@ jQuery(document).ready(function() {
         "bSort": true,
         "dom": '<"top"ilf>rt<"bottom"p><"clear">',
         "responsive": true,
-        "columnDefs": [ { "targets": 6, "orderable": false }, { "aTargets": [5], "sType": "numeric" } ],
+        "columnDefs": [ { "targets": 3, "orderable": false }, { "aTargets": [3], "sType": "numeric" } ],
         "oLanguage": {
             "sEmptyTable": "<span class='glyphicon glyphicon-ban-circle'></span>&nbsp;No data available on Memcached daemon."
         },
         "aoColumns": [
             { sWidth: '27%' },
             { sWidth: '33%' },
-            { sWidth: '5%'  },
-            { sWidth: '5%'  },
-            { sWidth: '5%'  },
             { sWidth: '5%', sSortDataType: 'dom-text', sType: 'numeric' },
             { sWidth: '19%' }
         ]

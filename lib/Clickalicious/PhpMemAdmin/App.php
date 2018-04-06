@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 namespace Clickalicious\PhpMemAdmin;
@@ -25,7 +26,7 @@ namespace Clickalicious\PhpMemAdmin;
  * list of conditions and the following disclaimer.
  *
  * - Redistributions in binary form must reproduce the above copyright notice,
- * this list of conditions and the following disclaimer in the documentation
+ * this list of conditions and the following disclaimer in the documentationme
  * and/or other materials provided with the distribution.
  *
  * - Neither the name of phpMemAdmin nor the names of its
@@ -54,7 +55,6 @@ namespace Clickalicious\PhpMemAdmin;
  * @version    Git: $Id$
  * @link       https://github.com/clickalicious/phpMemAdmin
  */
-
 require_once 'Exception.php';
 
 use \Clickalicious\PhpMemAdmin\Exception;
@@ -75,8 +75,8 @@ use \Clickalicious\Memcached\Client;
  * @version    Git: $Id$
  * @link       https://github.com/clickalicious/phpMemAdmin
  */
-class App
-{
+class App {
+
     /**
      * The app title.
      *
@@ -212,15 +212,15 @@ class App
      * @access protected
      */
     protected $errorMessages = array(
-          1 => 'Could not create key "%s" with value "%s".',                                   // (C)reate
-          2 => 'Could not read key "%s"',                                                      // (R)ead
-          3 => 'Could not update key "%s"',                                                    // (U)pdate
-          4 => 'Could not delete key',                                                         // (D)elete
-          5 => 'Could not increment key "%s" by "%s"',                                         // Increment
-          6 => 'Could not decrement key "%s" by "%s"',                                         // Decrement
-          7 => 'Could not prepend value to key "%s"',                                          // Prepend
-          8 => 'Could not append value to key "%s"',                                           // Append
-          9 => 'Could not flush keys.',                                                        // Flush
+        1 => 'Could not create key "%s" with value "%s".', // (C)reate
+        2 => 'Could not read key "%s"', // (R)ead
+        3 => 'Could not update key "%s"', // (U)pdate
+        4 => 'Could not delete key', // (D)elete
+        5 => 'Could not increment key "%s" by "%s"', // Increment
+        6 => 'Could not decrement key "%s" by "%s"', // Decrement
+        7 => 'Could not prepend value to key "%s"', // Prepend
+        8 => 'Could not append value to key "%s"', // Append
+        9 => 'Could not flush keys.', // Flush
         100 => 'Unknown error occurred while processing request. Stacktrace: <code>%s</code>', // Generic (exceptions)
     );
 
@@ -590,7 +590,7 @@ class App
      * @access public
      * @const
      */
-    const CLUSTER_HEALTH_NOTICE_COLOR   = 'lightgreen';
+    const CLUSTER_HEALTH_NOTICE_COLOR = 'lightgreen';
 
     /**
      * WARNING cluster condition message
@@ -628,7 +628,6 @@ class App
      */
     const CLUSTER_HEALTH_ERROR_COLOR = 'red';
 
-
     /**
      * Constructor.
      *
@@ -643,22 +642,18 @@ class App
      * @access public
      */
     public function __construct(
-        \stdClass $config,
-        Client    $client,
-                  $baseUrl    = self::DEFAULT_BASEURL,
-                  $dateFormat = self::DEFAULT_DATEFORMAT,
-                  $title      = self::DEFAULT_TITLE
+    \stdClass $config, Client $client, $baseUrl = self::DEFAULT_BASEURL, $dateFormat = self::DEFAULT_DATEFORMAT, $title = self::DEFAULT_TITLE
     ) {
         $this
-            ->title($title)                                             // Set title of app for rendering, logging ...
-            ->credentials($config->username, $config->password)         // Set credentials required (or NULL!)
-            ->authenticate()                                            // Validate credentials
-            ->client($client)                                           // Set the client used to talk to Memcached
-            ->dateFormat($dateFormat)                                   // Set format of date/time values
-            ->baseUrl($baseUrl)                                         // Set the base URL to the app
-            ->hosts($config->cluster->hosts)                            // Set the hosts maintained by this app
-            ->cluster($config->cluster->name)                           // Name of the active cluster
-            ->config($config);                                          // Store configuration
+                ->title($title)                                             // Set title of app for rendering, logging ...
+                ->credentials($config->username, $config->password)         // Set credentials required (or NULL!)
+                ->authenticate()                                            // Validate credentials
+                ->client($client)                                           // Set the client used to talk to Memcached
+                ->dateFormat($dateFormat)                                   // Set format of date/time values
+                ->baseUrl($baseUrl)                                         // Set the base URL to the app
+                ->hosts($config->cluster->hosts)                            // Set the hosts maintained by this app
+                ->cluster($config->cluster->name)                           // Name of the active cluster
+                ->config($config);                                          // Store configuration
     }
 
     /**
@@ -670,8 +665,7 @@ class App
      * @return array An collection of templates in logical order
      * @access protected
      */
-    protected function actionToTemplates($action)
-    {
+    protected function actionToTemplates($action) {
         switch ($action) {
             case self::ACTION_DASHBOARD:
                 $templates = array(
@@ -724,10 +718,9 @@ class App
      * @return string Content of template(s) as string
      * @access protected
      */
-    protected function loadTemplates($templates)
-    {
+    protected function loadTemplates($templates) {
         if (is_array($templates) === false) {
-            $templates = str_replace('/',  DIRECTORY_SEPARATOR, $templates);
+            $templates = str_replace('/', DIRECTORY_SEPARATOR, $templates);
             $templates = str_replace('\\', DIRECTORY_SEPARATOR, $templates);
             $templates = array($templates);
         }
@@ -751,11 +744,9 @@ class App
      * @return string Rendered HTML as string
      * @access protected
      */
-    protected function renderTemplate($html, array $variables = array())
-    {
+    protected function renderTemplate($html, array $variables = array()) {
         $variables = array_merge(
-            $variables,
-            $this->getDefaultTemplateVariables()
+                $variables, $this->getDefaultTemplateVariables()
         );
 
         return $this->renderString($html, $variables);
@@ -771,8 +762,7 @@ class App
      * @return string The rendered string
      * @access protected
      */
-    protected function renderString($string, array $variables = array())
-    {
+    protected function renderString($string, array $variables = array()) {
         foreach ($variables as $key => $value) {
             $string = str_replace('{{' . $key . '}}', $value, $string);
         }
@@ -789,23 +779,22 @@ class App
      * @return array The default template variables
      * @access protected
      */
-    protected function getDefaultTemplateVariables()
-    {
+    protected function getDefaultTemplateVariables() {
         $title = $this->getTitle();
         $titleShort = explode(' ', $title);
         $activeHost = $this->getActiveHost(true);
 
-        $variables                = $this->defaultTemplateVariables;
-        $variables['menu']        = $this->getMenuHtml();
-        $variables['title']       = $title;
-        $variables['titleShort']  = $titleShort[0];
+        $variables = $this->defaultTemplateVariables;
+        $variables['menu'] = $this->getMenuHtml();
+        $variables['title'] = $title;
+        $variables['titleShort'] = $titleShort[0];
         $variables['clusterName'] = $this->getCluster();
-        $variables['uri']         = $_SERVER['PHP_SELF'] . '?action=' . $this->getAction() . '&host=' . $this->getActiveHost();
-        $variables['hostFull']    = $this->getActiveHost();
-        $variables['host']        = $activeHost[0];
-        $variables['port']        = $activeHost[1];
-        $variables['year']        = date('Y');
-        $variables['php']         = phpversion();
+        $variables['uri'] = $_SERVER['PHP_SELF'] . '?action=' . $this->getAction() . '&host=' . $this->getActiveHost();
+        $variables['hostFull'] = $this->getActiveHost();
+        $variables['host'] = $activeHost[0];
+        $variables['port'] = $activeHost[1];
+        $variables['year'] = date('Y');
+        $variables['php'] = phpversion();
 
         return $variables;
     }
@@ -820,10 +809,9 @@ class App
      * @return void
      * @access protected
      */
-    protected function parseArguments(array $arguments)
-    {
+    protected function parseArguments(array $arguments) {
         $this->setAction(
-            (isset($arguments[self::ARGUMENT_ACTION]) === true) ? (int)$arguments[self::ARGUMENT_ACTION] : 1
+                (isset($arguments[self::ARGUMENT_ACTION]) === true) ? (int) $arguments[self::ARGUMENT_ACTION] : 1
         );
     }
 
@@ -838,178 +826,161 @@ class App
      * @access protected
      * @throws \Exception
      */
-    protected function processRequestOperations($action, array $arguments)
-    {
+    protected function processRequestOperations($action, array $arguments) {
         // Get the current active host.
-        $host   = $this->getActiveHost(true);
+        $host = $this->getActiveHost(true);
         $result = null;
-        $error  = null;
+        $error = null;
         $anchor = '';
 
         // Try to execute the operation ...
         try {
             if (
-                isset($arguments['set']) === true &&
-                $arguments['set'] = strip_tags($arguments['set'])
+                    isset($arguments['set']) === true &&
+                    $arguments['set'] = strip_tags($arguments['set'])
             ) {
                 // Check required minimum input
                 if (isset($arguments['value']) !== true) {
                     throw new \Exception(
-                        sprintf('Cannot set key "%s" without value!', $arguments['set'])
+                    sprintf('Cannot set key "%s" without value!', $arguments['set'])
                     );
                 }
 
                 $value = $this->castAsPhpType($arguments['value']);
 
                 if (true !== $result = $this
-                    ->getMemcachedClient($host[0], $host[1], $this->getConfig()->timeout)
-                    ->set($arguments['set'], $value)
+                        ->getMemcachedClient($host[0], $host[1], $this->getConfig()->timeout)
+                        ->set($arguments['set'], $value)
                 ) {
                     $error = $this->errorContext(
-                        self::ERROR_CREATE,
-                        array(
-                            $arguments['set'],
-                            $arguments['value']
-                        )
+                            self::ERROR_CREATE, array(
+                        $arguments['set'],
+                        $arguments['value']
+                            )
                     );
                 } else {
                     $anchor = '#' . $arguments['set'];
                 }
-
             } elseif (
-                isset($arguments['replace']) === true &&
-                $arguments['replace'] = strip_tags($arguments['replace'])
+                    isset($arguments['replace']) === true &&
+                    $arguments['replace'] = strip_tags($arguments['replace'])
             ) {
                 // Check required minimum input
                 if (isset($arguments['value']) !== true) {
                     throw new \Exception(
-                        sprintf('Cannot set key "%s" without value!', $arguments['set'])
+                    sprintf('Cannot set key "%s" without value!', $arguments['set'])
                     );
                 }
 
                 $value = $this->castAsPhpType($arguments['value']);
 
                 if (true !== $result = $this
-                    ->getMemcachedClient($host[0], $host[1], $this->getConfig()->timeout)
-                    ->replace($arguments['replace'], $value)
+                        ->getMemcachedClient($host[0], $host[1], $this->getConfig()->timeout)
+                        ->replace($arguments['replace'], $value)
                 ) {
                     $error = $this->errorContext(
-                        self::ERROR_UPDATE,
-                        array($arguments['replace'])
+                            self::ERROR_UPDATE, array($arguments['replace'])
                     );
                 } else {
                     $anchor = '#' . $arguments['replace'];
                 }
-
             } elseif (
-                isset($arguments['append']) === true &&
-                $arguments['append'] = strip_tags($arguments['append'])
+                    isset($arguments['append']) === true &&
+                    $arguments['append'] = strip_tags($arguments['append'])
             ) {
                 if (true !== $result = $this
-                    ->getMemcachedClient($host[0], $host[1], $this->getConfig()->timeout)
-                    ->append($arguments['append'], $arguments['value'])
+                        ->getMemcachedClient($host[0], $host[1], $this->getConfig()->timeout)
+                        ->append($arguments['append'], $arguments['value'])
                 ) {
                     $error = $this->errorContext(
-                        self::ERROR_APPEND,
-                        array($arguments['append'])
+                            self::ERROR_APPEND, array($arguments['append'])
                     );
                 } else {
                     $anchor = '#' . $arguments['append'];
                 }
-
             } elseif (
-                isset($arguments['prepend']) === true &&
-                $arguments['prepend'] = strip_tags($arguments['prepend'])
+                    isset($arguments['prepend']) === true &&
+                    $arguments['prepend'] = strip_tags($arguments['prepend'])
             ) {
                 if (true !== $result = $this
-                    ->getMemcachedClient($host[0], $host[1], $this->getConfig()->timeout)
-                    ->prepend($arguments['prepend'], $arguments['value'])
+                        ->getMemcachedClient($host[0], $host[1], $this->getConfig()->timeout)
+                        ->prepend($arguments['prepend'], $arguments['value'])
                 ) {
                     $error = $this->errorContext(
-                        self::ERROR_PREPEND,
-                        array($arguments['prepend'])
+                            self::ERROR_PREPEND, array($arguments['prepend'])
                     );
                 } else {
                     $anchor = '#' . $arguments['prepend'];
                 }
-
             } elseif (
-                isset($arguments['increment']) === true &&
-                $arguments['increment'] = strip_tags($arguments['increment'])
+                    isset($arguments['increment']) === true &&
+                    $arguments['increment'] = strip_tags($arguments['increment'])
             ) {
                 $value = $this->castAsPhpType($arguments['value']);
 
                 if (true !== is_float($result = $this
-                    ->getMemcachedClient($host[0], $host[1], $this->getConfig()->timeout)
-                    ->incr($arguments['increment'], $value))
+                                ->getMemcachedClient($host[0], $host[1], $this->getConfig()->timeout)
+                                ->incr($arguments['increment'], $value))
                 ) {
                     $error = $this->errorContext(
-                        self::ERROR_INCREMENT,
-                        array($arguments['increment'])
+                            self::ERROR_INCREMENT, array($arguments['increment'])
                     );
                 } else {
                     $anchor = '#' . $arguments['increment'];
                     $result = true;
                 }
-
             } elseif (
-                isset($arguments['decrement']) === true &&
-                $arguments['decrement'] = strip_tags($arguments['decrement'])
+                    isset($arguments['decrement']) === true &&
+                    $arguments['decrement'] = strip_tags($arguments['decrement'])
             ) {
                 $value = $this->castAsPhpType($arguments['value']);
 
                 if (true !== is_float($result = $this
-                    ->getMemcachedClient($host[0], $host[1], $this->getConfig()->timeout)
-                    ->decr($arguments['decrement'], $value))
+                                ->getMemcachedClient($host[0], $host[1], $this->getConfig()->timeout)
+                                ->decr($arguments['decrement'], $value))
                 ) {
                     $error = $this->errorContext(
-                        self::ERROR_DECREMENT,
-                        array($arguments['decrement'])
+                            self::ERROR_DECREMENT, array($arguments['decrement'])
                     );
                 } else {
                     $anchor = '#' . $arguments['decrement'];
                     $result = true;
                 }
-
             } elseif (
-                isset($arguments['delete']) === true &&
-                $arguments['delete'] = strip_tags($arguments['delete'])
+                    isset($arguments['delete']) === true &&
+                    $arguments['delete'] = strip_tags($arguments['delete'])
             ) {
                 if (true !== $result = $this
-                    ->getMemcachedClient($host[0], $host[1], $this->getConfig()->timeout)
-                    ->delete($arguments['delete'])
+                        ->getMemcachedClient($host[0], $host[1], $this->getConfig()->timeout)
+                        ->delete($arguments['delete'])
                 ) {
                     $error = $this->errorContext(
-                        self::ERROR_DELETE,
-                        array($arguments['delete'])
+                            self::ERROR_DELETE, array($arguments['delete'])
                     );
                 }
             } elseif (
-                isset($arguments['flush']) === true &&
-                $arguments['flush'] = strip_tags($arguments['flush'])
+                    isset($arguments['flush']) === true &&
+                    $arguments['flush'] = strip_tags($arguments['flush'])
             ) {
                 if (true !== $result = $this
-                    ->getMemcachedClient($host[0], $host[1], $this->getConfig()->timeout)
-                    ->flush()
+                        ->getMemcachedClient($host[0], $host[1], $this->getConfig()->timeout)
+                        ->flush()
                 ) {
                     $error = $this->errorContext(
-                        self::ERROR_FLUSH
+                            self::ERROR_FLUSH
                     );
                 }
             }
-
         } catch (\Clickalicious\Memcached\Exception $e) {
             $error = $this->errorContext(
-                self::ERROR_GENERIC,
-                array(var_export($e, true))
+                    self::ERROR_GENERIC, array(var_export($e, true))
             );
-
         }
 
         //
         if ($error !== null) {
             $this->setError(
-                vsprintf($this->getErrorMessageByNumber($error['number']), $error['context'])
+                    vsprintf($this->getErrorMessageByNumber($error['number']), $error['context'])
             );
         }
 
@@ -1018,14 +989,12 @@ class App
 
             // So redirect to clean state self action
             $this->redirect(
-                $this->getUrl(
-                    array(
+                    $this->getUrl(
+                            array(
                         'action' => $action,
-                        'host'   => $this->getActiveHost(),
-                    ),
-                    '',
-                    $anchor
-                )
+                        'host' => $this->getActiveHost(),
+                            ), '', $anchor
+                    )
             );
         }
     }
@@ -1040,10 +1009,9 @@ class App
      * @return array An error context array containing key number and context
      * @access protected
      */
-    protected function errorContext($errorNumber, array $context = array())
-    {
+    protected function errorContext($errorNumber, array $context = array()) {
         return array(
-            'number'  => $errorNumber,
+            'number' => $errorNumber,
             'context' => $context,
         );
     }
@@ -1057,8 +1025,7 @@ class App
      * @return string The error message
      * @access protected
      */
-    protected function getErrorMessageByNumber($number)
-    {
+    protected function getErrorMessageByNumber($number) {
         return (isset($this->errorMessages[$number]) === true) ? $this->errorMessages[$number] : 'n.a.';
     }
 
@@ -1072,14 +1039,12 @@ class App
      * @return array The data requested
      * @access protected
      */
-    protected function retrieveStoredData($host, $port)
-    {
+    protected function retrieveStoredData($host, $port) {
         $result = array();
 
         // But at the end we will always fetch data ...
         try {
             $result = $this->dumpEntries($host, $port, null, true);
-
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
         }
@@ -1099,8 +1064,7 @@ class App
      * @return string The rendered HTML(5) template ready for delivery
      * @access public
      */
-    public function render($route = self::DEFAULT_BASEURL, array $arguments = array())
-    {
+    public function render($route = self::DEFAULT_BASEURL, array $arguments = array()) {
         // Prepare argument input ...
         $this->parseArguments($arguments);
         $action = $this->getAction();
@@ -1129,17 +1093,16 @@ class App
 
         // Return rendered HTML(5)
         return $this->renderTemplate(
-            $this->loadTemplates($this->actionToTemplates($action)),
-            array(
-                'content' => $this->getContent($action),
-                'message' => $this->getMessages()
-            )
+                        $this->loadTemplates($this->actionToTemplates($action)), array(
+                    'content' => $this->getContent($action),
+                    'message' => $this->getMessages()
+                        )
         );
     }
 
-    /*-----------------------------------------------------------------------------------------------------------------+
-    | Internal tools & helper
-    +-----------------------------------------------------------------------------------------------------------------*/
+    /* -----------------------------------------------------------------------------------------------------------------+
+      | Internal tools & helper
+      +----------------------------------------------------------------------------------------------------------------- */
 
     /**
      * Retrieves the messages to be shown in rendered page.
@@ -1148,13 +1111,11 @@ class App
      * @return string The message HTML string
      * @access protected
      */
-    protected function getMessages()
-    {
+    protected function getMessages() {
         $message = $this->renderTemplate(
-            $this->loadTemplates('message'),
-            array(
-                'message' => $this->getErrorMessageHtml() . $this->getHtmlInfoMessage() . $this->getHtmlSuccessMessage()
-            )
+                $this->loadTemplates('message'), array(
+            'message' => $this->getErrorMessageHtml() . $this->getHtmlInfoMessage() . $this->getHtmlSuccessMessage()
+                )
         );
 
         return $message;
@@ -1171,9 +1132,8 @@ class App
      * @return \Clickalicious\Memcached\Client A client instance
      * @access protected
      */
-    protected function getMemcachedClient($host, $port = Client::DEFAULT_PORT, $timeout = null)
-    {
-        $uuid    = $this->uuid($host, $port);
+    protected function getMemcachedClient($host, $port = Client::DEFAULT_PORT, $timeout = null) {
+        $uuid = $this->uuid($host, $port);
         $clients = $this->getClients();
 
         // Check if already exists ...
@@ -1181,13 +1141,13 @@ class App
             $client = clone $this->getClient();
 
             $client
-                ->host($host)
-                ->port($port);
+                    ->host($host)
+                    ->port($port);
 
             // Check for custom timeout (maybe required when connecting outside localhost = more latency)
             if (null !== $timeout && true === is_int($timeout) && $timeout >= 0) {
                 $client
-                    ->timeout($timeout);
+                        ->timeout($timeout);
             }
 
             $clients[$uuid] = $client;
@@ -1209,14 +1169,13 @@ class App
      * @return string The active host name or ip
      * @access public
      */
-    public function getActiveHost($asArray = false)
-    {
+    public function getActiveHost($asArray = false) {
         $host = $this->getHostFromRequest();
 
         if ($host === null) {
             // Get host from config
             $hosts = $this->getHosts();
-            $host  = $hosts[0];
+            $host = $hosts[0];
         }
 
         return ($asArray === true) ? explode(':', $host) : $host;
@@ -1229,8 +1188,7 @@ class App
      * @return string,null The active host name or ip if set, otherwise NULL
      * @access protected
      */
-    protected function getHostFromRequest()
-    {
+    protected function getHostFromRequest() {
         $host = null;
 
         if (isset($_GET['host']) && $_GET['host'] !== '' && (in_array($_GET['host'], $this->getHosts()) === true)) {
@@ -1250,37 +1208,36 @@ class App
      * @return array The result
      * @access protected
      */
-    protected function convertUptime($timestamp)
-    {
+    protected function convertUptime($timestamp) {
         // Factors
         $second = 1;
         $minute = 60;
-        $hour   = 60     * 60;
-        $day    = $hour  * 24;
-        $month  = $day   * 30;
-        $year   = $month * 12;
+        $hour = 60 * 60;
+        $day = $hour * 24;
+        $month = $day * 30;
+        $year = $month * 12;
 
         $rest = $timestamp;
 
         // Convert ...
-        $years   = floor($rest / $year);
-        $rest   -= ($years * $year);
-        $months  = floor($rest / $month);
-        $rest   -= ($months * $month);
-        $days    = floor($rest / $day);
-        $rest   -= ($days * $day);
-        $hours   = floor($rest / $hour);
-        $rest   -= ($hours * $hour);
+        $years = floor($rest / $year);
+        $rest -= ($years * $year);
+        $months = floor($rest / $month);
+        $rest -= ($months * $month);
+        $days = floor($rest / $day);
+        $rest -= ($days * $day);
+        $hours = floor($rest / $hour);
+        $rest -= ($hours * $hour);
         $minutes = floor($rest / $minute);
-        $rest   -= ($minutes * $minute);
+        $rest -= ($minutes * $minute);
         $seconds = floor($rest / $second);
 
         // Result ...
         $result = array(
-            'years'   => $years,
-            'months'  => $months,
-            'days'    => $days,
-            'hours'   => $hours,
+            'years' => $years,
+            'months' => $months,
+            'days' => $days,
+            'hours' => $hours,
             'minutes' => $minutes,
             'seconds' => $seconds,
         );
@@ -1297,8 +1254,7 @@ class App
      * @return string HTML
      * @access protected
      */
-    protected function getContent($action)
-    {
+    protected function getContent($action) {
         $html = '';
 
         // Generate content by action ...
@@ -1307,7 +1263,7 @@ class App
             case self::ACTION_DASHBOARD:
                 $time = time();
                 $data = $this->aggregateStatistics(
-                    $this->getHosts()
+                        $this->getHosts()
                 );
 
                 $data['grade'] = $data['bytes'] * 100 / $data['limit_maxbytes'];
@@ -1315,34 +1271,27 @@ class App
                 if ($data['grade'] >= $this->getConfig()->cluster->thresholds->notice) {
                     if ($data['grade'] < $this->getConfig()->cluster->thresholds->warning) {
                         // is notice
-                        $thumbColor   = self::CLUSTER_HEALTH_NOTICE_COLOR;
+                        $thumbColor = self::CLUSTER_HEALTH_NOTICE_COLOR;
                         $thumbMessage = $this->renderString(
-                            self::CLUSTER_HEALTH_NOTICE_MESSAGE,
-                            array('clusterName' => $this->getConfig()->cluster->name)
+                                self::CLUSTER_HEALTH_NOTICE_MESSAGE, array('clusterName' => $this->getConfig()->cluster->name)
                         );
-
                     } elseif ($data['grade'] < $this->getConfig()->cluster->thresholds->error) {
                         // is warning
-                        $thumbColor   = self::CLUSTER_HEALTH_WARNING_COLOR;
+                        $thumbColor = self::CLUSTER_HEALTH_WARNING_COLOR;
                         $thumbMessage = $this->renderString(
-                            self::CLUSTER_HEALTH_WARNING_MESSAGE,
-                            array('clusterName' => $this->getConfig()->cluster->name)
+                                self::CLUSTER_HEALTH_WARNING_MESSAGE, array('clusterName' => $this->getConfig()->cluster->name)
                         );
-
                     } else {
                         // is error
-                        $thumbColor   = self::CLUSTER_HEALTH_ERROR_COLOR;
+                        $thumbColor = self::CLUSTER_HEALTH_ERROR_COLOR;
                         $thumbMessage = $this->renderString(
-                            self::CLUSTER_HEALTH_ERROR_MESSAGE,
-                            array('clusterName' => $this->getConfig()->cluster->name)
+                                self::CLUSTER_HEALTH_ERROR_MESSAGE, array('clusterName' => $this->getConfig()->cluster->name)
                         );
                     }
-
                 } else {
-                    $thumbColor   = self::CLUSTER_HEALTH_TOP_COLOR;
+                    $thumbColor = self::CLUSTER_HEALTH_TOP_COLOR;
                     $thumbMessage = $this->renderString(
-                        self::CLUSTER_HEALTH_TOP_MESSAGE,
-                        array('clusterName' => $this->getConfig()->cluster->name)
+                            self::CLUSTER_HEALTH_TOP_MESSAGE, array('clusterName' => $this->getConfig()->cluster->name)
                     );
                 }
 
@@ -1351,73 +1300,73 @@ class App
 
                 // Convert units for some values ...
                 $data['limit_maxmbytes'] = $data['limit_maxbytes'] / 1024 / 1024;
-                $data['starttime']       = date(self::DEFAULT_DATEFORMAT, $time - $data['uptime']) . '.000Z';
+                $data['starttime'] = date(self::DEFAULT_DATEFORMAT, $time - $data['uptime']) . '.000Z';
 
                 // Request data
-                $hitsGet      = $data['get_hits'];
-                $missesGet    = $data['get_misses'];
-                $hitsDelete   = $data['delete_hits'];
+                $hitsGet = $data['get_hits'];
+                $missesGet = $data['get_misses'];
+                $hitsDelete = $data['delete_hits'];
                 $missesDelete = $data['delete_misses'];
-                $hitsIncr     = $data['incr_hits'];
-                $missesIncr   = $data['incr_misses'];
-                $hitsDecr     = $data['decr_hits'];
-                $missesDecr   = $data['decr_misses'];
-                $hitsCas      = $data['cas_hits'];
-                $missesCas    = $data['cas_misses'];
+                $hitsIncr = $data['incr_hits'];
+                $missesIncr = $data['incr_misses'];
+                $hitsDecr = $data['decr_hits'];
+                $missesDecr = $data['decr_misses'];
+                $hitsCas = $data['cas_hits'];
+                $missesCas = $data['cas_misses'];
 
-                $hits   = $hitsGet   + $hitsDelete   + $hitsIncr   + $hitsDecr   + $hitsCas;
+                $hits = $hitsGet + $hitsDelete + $hitsIncr + $hitsDecr + $hitsCas;
                 $misses = $missesGet + $missesDelete + $missesIncr + $missesDecr + $missesCas;
 
                 $factorSecond = $data['uptime'];
                 $factorMinute = $factorSecond / 60;
-                $factorHour   = $factorMinute / 60;
-                $factorDay    = $factorHour   / 24;
+                $factorHour = $factorMinute / 60;
+                $factorDay = $factorHour / 24;
 
                 $sets = $data['cmd_set'];
 
                 $requestRateSeconds = sprintf('%.2f', ($hits + $misses) / $factorSecond);
-                $hitRateSeconds     = sprintf('%.2f', ($hits)           / $factorSecond);
-                $missesRateSeconds  = sprintf('%.2f', ($misses)         / $factorSecond);
-                $setRateSeconds     = sprintf('%.2f', ($sets)           / $factorSecond);
+                $hitRateSeconds = sprintf('%.2f', ($hits) / $factorSecond);
+                $missesRateSeconds = sprintf('%.2f', ($misses) / $factorSecond);
+                $setRateSeconds = sprintf('%.2f', ($sets) / $factorSecond);
                 $requestRateMinutes = sprintf('%.2f', ($hits + $misses) / $factorMinute);
-                $hitRateMinutes     = sprintf('%.2f', ($hits)           / $factorMinute);
-                $missesRateMinutes  = sprintf('%.2f', ($misses)         / $factorMinute);
-                $setRateMinutes     = sprintf('%.2f', ($sets)           / $factorMinute);
-                $requestRateHours   = sprintf('%.2f', ($hits + $misses) / $factorHour);
-                $hitRateHours       = sprintf('%.2f', ($hits)           / $factorHour);
-                $missesRateHours    = sprintf('%.2f', ($misses)         / $factorHour);
-                $setRateHours       = sprintf('%.2f', ($sets)           / $factorHour);
-                $requestRateDays    = sprintf('%.2f', ($hits + $misses) / $factorDay);
-                $hitRateDays        = sprintf('%.2f', ($hits)           / $factorDay);
-                $missesRateDays     = sprintf('%.2f', ($misses)         / $factorDay);
-                $setRateDays        = sprintf('%.2f', ($sets)           / $factorDay);
+                $hitRateMinutes = sprintf('%.2f', ($hits) / $factorMinute);
+                $missesRateMinutes = sprintf('%.2f', ($misses) / $factorMinute);
+                $setRateMinutes = sprintf('%.2f', ($sets) / $factorMinute);
+                $requestRateHours = sprintf('%.2f', ($hits + $misses) / $factorHour);
+                $hitRateHours = sprintf('%.2f', ($hits) / $factorHour);
+                $missesRateHours = sprintf('%.2f', ($misses) / $factorHour);
+                $setRateHours = sprintf('%.2f', ($sets) / $factorHour);
+                $requestRateDays = sprintf('%.2f', ($hits + $misses) / $factorDay);
+                $hitRateDays = sprintf('%.2f', ($hits) / $factorDay);
+                $missesRateDays = sprintf('%.2f', ($misses) / $factorDay);
+                $setRateDays = sprintf('%.2f', ($sets) / $factorDay);
 
                 $data['seconds'] = array(
                     'requestRate' => $requestRateSeconds,
-                    'hitRate'     => $hitRateSeconds,
-                    'missesRate'  => $missesRateSeconds,
-                    'setRate'     => $setRateSeconds,
+                    'hitRate' => $hitRateSeconds,
+                    'missesRate' => $missesRateSeconds,
+                    'setRate' => $setRateSeconds,
                 );
 
                 $data['minutes'] = array(
                     'requestRate' => $requestRateMinutes,
-                    'hitRate'     => $hitRateMinutes,
-                    'missesRate'  => $missesRateMinutes,
-                    'setRate'     => $setRateMinutes,
+                    'hitRate' => $hitRateMinutes,
+                    'missesRate' => $missesRateMinutes,
+                    'setRate' => $setRateMinutes,
                 );
 
                 $data['hours'] = array(
                     'requestRate' => $requestRateHours,
-                    'hitRate'     => $hitRateHours,
-                    'missesRate'  => $missesRateHours,
-                    'setRate'     => $setRateHours,
+                    'hitRate' => $hitRateHours,
+                    'missesRate' => $missesRateHours,
+                    'setRate' => $setRateHours,
                 );
 
                 $data['days'] = array(
                     'requestRate' => $requestRateDays,
-                    'hitRate'     => $hitRateDays,
-                    'missesRate'  => $missesRateDays,
-                    'setRate'     => $setRateDays,
+                    'hitRate' => $hitRateDays,
+                    'missesRate' => $missesRateDays,
+                    'setRate' => $setRateDays,
                 );
 
                 $seconds = '[';
@@ -1444,10 +1393,10 @@ class App
                 }
                 $days .= ']';
 
-                $data['seconds']       = $seconds;
-                $data['minutes']       = $minutes;
-                $data['hours']         = $hours;
-                $data['days']          = $days;
+                $data['seconds'] = $seconds;
+                $data['minutes'] = $minutes;
+                $data['hours'] = $hours;
+                $data['days'] = $days;
 
 
                 $data['latestVersion'] = '';
@@ -1456,32 +1405,31 @@ class App
                 if ($this->getConfig()->updatecheck === true) {
                     try {
                         $version = $this->getMemcachedLatestVersion();
-
                     } catch (Exception $e) {
                         $this->setInfo($e->getMessage());
                         $version = '1.0.0';
                     }
 
                     if ($version !== '1.0.0' && $version < $data['version']) {
-                        $data['latestVersion']       = '<span class="label label-danger pull-right"><b><a href="https://code.google.com/p/memcached/wiki/ReleaseNotes' . str_replace('.', '', $version) . '" style="color: #fff;" target="_blank">' . $version . ' available</a></b></span>';
+                        $data['latestVersion'] = '<span class="label label-danger pull-right"><b><a href="https://code.google.com/p/memcached/wiki/ReleaseNotes' . str_replace('.', '', $version) . '" style="color: #fff;" target="_blank">' . $version . ' available</a></b></span>';
                         $data['latestVersionHeight'] = 60;
                     }
                 }
 
                 $hits = array(
-                    'get'    => $hitsGet,
+                    'get' => $hitsGet,
                     'delete' => $hitsDelete,
-                    'incr'   => $hitsIncr,
-                    'decr'   => $hitsDecr,
-                    'cas'    => $hitsCas,
+                    'incr' => $hitsIncr,
+                    'decr' => $hitsDecr,
+                    'cas' => $hitsCas,
                 );
 
                 $misses = array(
-                    'get'    => $missesGet,
+                    'get' => $missesGet,
                     'delete' => $missesDelete,
-                    'incr'   => $missesIncr,
-                    'decr'   => $missesDecr,
-                    'cas'    => $missesCas,
+                    'incr' => $missesIncr,
+                    'decr' => $missesDecr,
+                    'cas' => $missesCas,
                 );
 
                 $hitsJson = '[';
@@ -1496,7 +1444,7 @@ class App
                 }
                 $missesJson = rtrim($missesJson, ',') . ']';
 
-                $data['requestHits']   = $hitsJson;
+                $data['requestHits'] = $hitsJson;
                 $data['requestMisses'] = $missesJson;
 
 
@@ -1504,8 +1452,8 @@ class App
                  * Render subcontent for settings table
                  */
                 $subcontent = '';
-                $settings   = $this->getSettings($this->getActiveHost());
-                $template   = $this->loadTemplates('content-host-dashboard-settings-entity');
+                $settings = $this->getSettings($this->getActiveHost());
+                $template = $this->loadTemplates('content-host-dashboard-settings-entity');
 
                 foreach ($settings as $setting => $value) {
                     $templateVariables = array('key' => $setting, 'value' => $value);
@@ -1516,86 +1464,86 @@ class App
 
 
                 $template = $this->loadTemplates('content-cluster-dashboard-environment');
-                $html    .= $this->renderTemplate($template, $data);
+                $html .= $this->renderTemplate($template, $data);
                 break;
 
             case self::ACTION_HOST_DETAILS:
                 $time = time();
                 $data = $this->aggregateStatistics(
-                    array(
-                        $this->getActiveHost()
-                    )
+                        array(
+                            $this->getActiveHost()
+                        )
                 );
 
                 // Convert units for some values ...
                 $data['limit_maxmbytes'] = $data['limit_maxbytes'] / 1024 / 1024;
-                $data['starttime']       = date(self::DEFAULT_DATEFORMAT, $time - $data['uptime']) . '.000Z';
+                $data['starttime'] = date(self::DEFAULT_DATEFORMAT, $time - $data['uptime']) . '.000Z';
 
                 // Request data
-                $hitsGet      = $data['get_hits'];
-                $missesGet    = $data['get_misses'];
-                $hitsDelete   = $data['delete_hits'];
+                $hitsGet = $data['get_hits'];
+                $missesGet = $data['get_misses'];
+                $hitsDelete = $data['delete_hits'];
                 $missesDelete = $data['delete_misses'];
-                $hitsIncr     = $data['incr_hits'];
-                $missesIncr   = $data['incr_misses'];
-                $hitsDecr     = $data['decr_hits'];
-                $missesDecr   = $data['decr_misses'];
-                $hitsCas      = $data['cas_hits'];
-                $missesCas    = $data['cas_misses'];
+                $hitsIncr = $data['incr_hits'];
+                $missesIncr = $data['incr_misses'];
+                $hitsDecr = $data['decr_hits'];
+                $missesDecr = $data['decr_misses'];
+                $hitsCas = $data['cas_hits'];
+                $missesCas = $data['cas_misses'];
 
-                $hits   = $hitsGet   + $hitsDelete   + $hitsIncr   + $hitsDecr   + $hitsCas;
+                $hits = $hitsGet + $hitsDelete + $hitsIncr + $hitsDecr + $hitsCas;
                 $misses = $missesGet + $missesDelete + $missesIncr + $missesDecr + $missesCas;
 
                 $factorSecond = $data['uptime'];
                 $factorMinute = $factorSecond / 60;
-                $factorHour   = $factorMinute / 60;
-                $factorDay    = $factorHour   / 24;
+                $factorHour = $factorMinute / 60;
+                $factorDay = $factorHour / 24;
 
                 $sets = $data['cmd_set'];
 
                 $requestRateSeconds = sprintf('%.2f', ($hits + $misses) / $factorSecond);
-                $hitRateSeconds     = sprintf('%.2f', ($hits)           / $factorSecond);
-                $missesRateSeconds  = sprintf('%.2f', ($misses)         / $factorSecond);
-                $setRateSeconds     = sprintf('%.2f', ($sets)           / $factorSecond);
+                $hitRateSeconds = sprintf('%.2f', ($hits) / $factorSecond);
+                $missesRateSeconds = sprintf('%.2f', ($misses) / $factorSecond);
+                $setRateSeconds = sprintf('%.2f', ($sets) / $factorSecond);
                 $requestRateMinutes = sprintf('%.2f', ($hits + $misses) / $factorMinute);
-                $hitRateMinutes     = sprintf('%.2f', ($hits)           / $factorMinute);
-                $missesRateMinutes  = sprintf('%.2f', ($misses)         / $factorMinute);
-                $setRateMinutes     = sprintf('%.2f', ($sets)           / $factorMinute);
-                $requestRateHours   = sprintf('%.2f', ($hits + $misses) / $factorHour);
-                $hitRateHours       = sprintf('%.2f', ($hits)           / $factorHour);
-                $missesRateHours    = sprintf('%.2f', ($misses)         / $factorHour);
-                $setRateHours       = sprintf('%.2f', ($sets)           / $factorHour);
-                $requestRateDays    = sprintf('%.2f', ($hits + $misses) / $factorDay);
-                $hitRateDays        = sprintf('%.2f', ($hits)           / $factorDay);
-                $missesRateDays     = sprintf('%.2f', ($misses)         / $factorDay);
-                $setRateDays        = sprintf('%.2f', ($sets)           / $factorDay);
+                $hitRateMinutes = sprintf('%.2f', ($hits) / $factorMinute);
+                $missesRateMinutes = sprintf('%.2f', ($misses) / $factorMinute);
+                $setRateMinutes = sprintf('%.2f', ($sets) / $factorMinute);
+                $requestRateHours = sprintf('%.2f', ($hits + $misses) / $factorHour);
+                $hitRateHours = sprintf('%.2f', ($hits) / $factorHour);
+                $missesRateHours = sprintf('%.2f', ($misses) / $factorHour);
+                $setRateHours = sprintf('%.2f', ($sets) / $factorHour);
+                $requestRateDays = sprintf('%.2f', ($hits + $misses) / $factorDay);
+                $hitRateDays = sprintf('%.2f', ($hits) / $factorDay);
+                $missesRateDays = sprintf('%.2f', ($misses) / $factorDay);
+                $setRateDays = sprintf('%.2f', ($sets) / $factorDay);
 
                 $data['seconds'] = array(
                     'requestRate' => $requestRateSeconds,
-                    'hitRate'     => $hitRateSeconds,
-                    'missesRate'  => $missesRateSeconds,
-                    'setRate'     => $setRateSeconds,
+                    'hitRate' => $hitRateSeconds,
+                    'missesRate' => $missesRateSeconds,
+                    'setRate' => $setRateSeconds,
                 );
 
                 $data['minutes'] = array(
                     'requestRate' => $requestRateMinutes,
-                    'hitRate'     => $hitRateMinutes,
-                    'missesRate'  => $missesRateMinutes,
-                    'setRate'     => $setRateMinutes,
+                    'hitRate' => $hitRateMinutes,
+                    'missesRate' => $missesRateMinutes,
+                    'setRate' => $setRateMinutes,
                 );
 
                 $data['hours'] = array(
                     'requestRate' => $requestRateHours,
-                    'hitRate'     => $hitRateHours,
-                    'missesRate'  => $missesRateHours,
-                    'setRate'     => $setRateHours,
+                    'hitRate' => $hitRateHours,
+                    'missesRate' => $missesRateHours,
+                    'setRate' => $setRateHours,
                 );
 
                 $data['days'] = array(
                     'requestRate' => $requestRateDays,
-                    'hitRate'     => $hitRateDays,
-                    'missesRate'  => $missesRateDays,
-                    'setRate'     => $setRateDays,
+                    'hitRate' => $hitRateDays,
+                    'missesRate' => $missesRateDays,
+                    'setRate' => $setRateDays,
                 );
 
                 $seconds = '[';
@@ -1622,10 +1570,10 @@ class App
                 }
                 $days .= ']';
 
-                $data['seconds']       = $seconds;
-                $data['minutes']       = $minutes;
-                $data['hours']         = $hours;
-                $data['days']          = $days;
+                $data['seconds'] = $seconds;
+                $data['minutes'] = $minutes;
+                $data['hours'] = $hours;
+                $data['days'] = $days;
 
 
                 $data['latestVersion'] = '';
@@ -1634,32 +1582,31 @@ class App
                 if ($this->getConfig()->updatecheck === true) {
                     try {
                         $version = $this->getMemcachedLatestVersion();
-
                     } catch (Exception $e) {
                         $this->setInfo($e->getMessage());
                         $version = '1.0.0';
                     }
 
                     if ($version !== '1.0.0' && $version < $data['version']) {
-                        $data['latestVersion']       = '<span class="label label-danger pull-right"><b><a href="https://code.google.com/p/memcached/wiki/ReleaseNotes' . str_replace('.', '', $version) . '" style="color: #fff;" target="_blank">' . $version . ' available</a></b></span>';
+                        $data['latestVersion'] = '<span class="label label-danger pull-right"><b><a href="https://code.google.com/p/memcached/wiki/ReleaseNotes' . str_replace('.', '', $version) . '" style="color: #fff;" target="_blank">' . $version . ' available</a></b></span>';
                         $data['latestVersionHeight'] = 60;
                     }
                 }
 
                 $hits = array(
-                    'get'    => $hitsGet,
+                    'get' => $hitsGet,
                     'delete' => $hitsDelete,
-                    'incr'   => $hitsIncr,
-                    'decr'   => $hitsDecr,
-                    'cas'    => $hitsCas,
+                    'incr' => $hitsIncr,
+                    'decr' => $hitsDecr,
+                    'cas' => $hitsCas,
                 );
 
                 $misses = array(
-                    'get'    => $missesGet,
+                    'get' => $missesGet,
                     'delete' => $missesDelete,
-                    'incr'   => $missesIncr,
-                    'decr'   => $missesDecr,
-                    'cas'    => $missesCas,
+                    'incr' => $missesIncr,
+                    'decr' => $missesDecr,
+                    'cas' => $missesCas,
                 );
 
                 $hitsJson = '[';
@@ -1674,7 +1621,7 @@ class App
                 }
                 $missesJson = rtrim($missesJson, ',') . ']';
 
-                $data['requestHits']   = $hitsJson;
+                $data['requestHits'] = $hitsJson;
                 $data['requestMisses'] = $missesJson;
 
 
@@ -1682,8 +1629,8 @@ class App
                  * Render subcontent for settings table
                  */
                 $subcontent = '';
-                $settings   = $this->getSettings($this->getActiveHost());
-                $template   = $this->loadTemplates('content-host-dashboard-settings-entity');
+                $settings = $this->getSettings($this->getActiveHost());
+                $template = $this->loadTemplates('content-host-dashboard-settings-entity');
 
                 foreach ($settings as $setting => $value) {
                     $templateVariables = array('key' => $setting, 'value' => $value);
@@ -1694,48 +1641,45 @@ class App
 
 
                 $template = $this->loadTemplates('content-host-dashboard-environment');
-                $html    .= $this->renderTemplate($template, $data);
+                $html .= $this->renderTemplate($template, $data);
                 $template = $this->loadTemplates('content-host-dashboard-stored-keys');
-                $html    .= $this->renderTemplate($template, $data);
+                $html .= $this->renderTemplate($template, $data);
                 $template = $this->loadTemplates('content-host-dashboard-memory');
-                $html    .= $this->renderTemplate($template, $data);
+                $html .= $this->renderTemplate($template, $data);
                 $template = $this->loadTemplates('content-host-dashboard-requests');
-                $html    .= $this->renderTemplate($template, $data);
+                $html .= $this->renderTemplate($template, $data);
                 $template = $this->loadTemplates('content-host-dashboard-average-load');
-                $html    .= $this->renderTemplate($template, $data);
+                $html .= $this->renderTemplate($template, $data);
                 $template = $this->loadTemplates('content-host-dashboard-settings');
-                $html    .= $this->renderTemplate($template, $data);
+                $html .= $this->renderTemplate($template, $data);
                 break;
 
             case self::ACTION_DASHBOARD:
                 /*
-                // Output only on dashboard
-                if ($this->getAction() < 2) {
-                    $template .= '<li class="list-group-item"><span class="badge">' . count($this->getHosts()) . ' </span>Hosts</li>';
-                }
-                */
+                  // Output only on dashboard
+                  if ($this->getAction() < 2) {
+                  $template .= '<li class="list-group-item"><span class="badge">' . count($this->getHosts()) . ' </span>Hosts</li>';
+                  }
+                 */
                 break;
 
             case self::ACTION_DATA_MANAGEMENT:
 
                 $entityHtml = $this->loadTemplates('content-data-management-entity');
-                $host       = $this->getActiveHost(true);
-                $entries    = $this->dumpEntries($host[0], $host[1], null, true);
+                $host = $this->getActiveHost(true);
+                $entries = $this->dumpEntries($host[0], $host[1], null, true);
 
                 // Iterate the entries and generate one block of HTML per entry! each with own controls
-                foreach($entries as $key => $data) {
+                foreach ($entries as $key => $data) {
                     $data['valueType'] = ucfirst(gettype($data['value']));
 
                     if (is_array($data['value']) === true || is_object($data['value']) === true) {
                         $data['bytes'] = sizeof($data['value']);
                         $data['value'] = var_export($data['value'], true);
-
                     } elseif (is_int($data['value']) === true || is_double($data['value']) === true) {
                         $data['bytes'] = 2;
-
                     } else {
                         $data['bytes'] = strlen($data['value']);
-
                     }
 
                     $data['bytes'] = number_format($data['bytes'], 0, ',', '.');
@@ -1756,30 +1700,26 @@ class App
 
                     switch ($data['valueType']) {
                         case 'String':
-                            $data['buttons'] =
-                                $this->getDeleteButtonHtml($data['key']) .
-                                $this->getEditButtonHtml($data['key'], $data['value'])   .
-                                $this->getAppendButtonHtml($data['key']) .
-                                $this->getPrependButtonHtml($data['key']);
+                            $data['buttons'] = $this->getDeleteButtonHtml($data['key']) .
+                                    $this->getEditButtonHtml($data['key'], $data['value']) .
+                                    $this->getAppendButtonHtml($data['key']) .
+                                    $this->getPrependButtonHtml($data['key']);
                             break;
 
                         case 'Double':
-                            $data['buttons'] =
-                                $this->getDeleteButtonHtml($data['key']) .
-                                $this->getEditButtonHtml($data['key'], $data['value']);
+                            $data['buttons'] = $this->getDeleteButtonHtml($data['key']) .
+                                    $this->getEditButtonHtml($data['key'], $data['value']);
                             break;
 
                         case 'Integer':
-                            $data['buttons'] =
-                                $this->getDeleteButtonHtml($data['key']) .
-                                $this->getEditButtonHtml($data['key'], $data['value'])   .
-                                $this->getDecrementButtonHtml($data['key']) .
-                                $this->getIncrementButtonHtml($data['key']);
+                            $data['buttons'] = $this->getDeleteButtonHtml($data['key']) .
+                                    $this->getEditButtonHtml($data['key'], $data['value']) .
+                                    $this->getDecrementButtonHtml($data['key']) .
+                                    $this->getIncrementButtonHtml($data['key']);
                             break;
 
                         default:
-                            $data['buttons'] =
-                                $this->getDeleteButtonHtml($data['key']);
+                            $data['buttons'] = $this->getDeleteButtonHtml($data['key']);
                             break;
                     }
 
@@ -1795,9 +1735,9 @@ class App
         return $html;
     }
 
-    /*------------------------------------------------------------------------------------------------------------------
-    | HTML generating Methods
-    +-----------------------------------------------------------------------------------------------------------------*/
+    /* ------------------------------------------------------------------------------------------------------------------
+      | HTML generating Methods
+      +----------------------------------------------------------------------------------------------------------------- */
 
     /**
      * Returns the edit button rendered by template render engine.
@@ -1809,16 +1749,14 @@ class App
      * @return string The HTML of the button
      * @access protected
      */
-    protected function getEditButtonHtml($key, $value)
-    {
+    protected function getEditButtonHtml($key, $value) {
         $value = str_replace('\'', '\\\'', $value);
 
         return $this->renderTemplate(
-            $this->loadTemplates('buttons\edit'),
-            array(
-                'key'   => $key,
-                'value' => htmlentities($value),
-            )
+                        $this->loadTemplates('buttons\edit'), array(
+                    'key' => $key,
+                    'value' => htmlentities($value),
+                        )
         );
     }
 
@@ -1831,13 +1769,11 @@ class App
      * @return string The HTML of the button
      * @access protected
      */
-    protected function getDeleteButtonHtml($key)
-    {
+    protected function getDeleteButtonHtml($key) {
         return $this->renderTemplate(
-            $this->loadTemplates('buttons\delete'),
-            array(
-                'key' => $key
-            )
+                        $this->loadTemplates('buttons\delete'), array(
+                    'key' => $key
+                        )
         );
     }
 
@@ -1850,13 +1786,11 @@ class App
      * @return string The HTML of the button
      * @access protected
      */
-    protected function getIncrementButtonHtml($key)
-    {
+    protected function getIncrementButtonHtml($key) {
         return $this->renderTemplate(
-            $this->loadTemplates('buttons\increment'),
-            array(
-                'key' => $key
-            )
+                        $this->loadTemplates('buttons\increment'), array(
+                    'key' => $key
+                        )
         );
     }
 
@@ -1869,13 +1803,11 @@ class App
      * @return string The HTML of the button
      * @access protected
      */
-    protected function getDecrementButtonHtml($key)
-    {
+    protected function getDecrementButtonHtml($key) {
         return $this->renderTemplate(
-            $this->loadTemplates('buttons\decrement'),
-            array(
-                'key' => $key
-            )
+                        $this->loadTemplates('buttons\decrement'), array(
+                    'key' => $key
+                        )
         );
     }
 
@@ -1888,13 +1820,11 @@ class App
      * @return string The HTML of the button
      * @access protected
      */
-    protected function getPrependButtonHtml($key)
-    {
+    protected function getPrependButtonHtml($key) {
         return $this->renderTemplate(
-            $this->loadTemplates('buttons\prepend'),
-            array(
-                'key' => $key
-            )
+                        $this->loadTemplates('buttons\prepend'), array(
+                    'key' => $key
+                        )
         );
     }
 
@@ -1907,13 +1837,11 @@ class App
      * @return string The HTML of the button
      * @access protected
      */
-    protected function getAppendButtonHtml($key)
-    {
+    protected function getAppendButtonHtml($key) {
         return $this->renderTemplate(
-            $this->loadTemplates('buttons\append'),
-            array(
-                'key' => $key
-            )
+                        $this->loadTemplates('buttons\append'), array(
+                    'key' => $key
+                        )
         );
     }
 
@@ -1924,16 +1852,14 @@ class App
      * @return string The HTML as string
      * @access protected
      */
-    protected function getErrorMessageHtml()
-    {
+    protected function getErrorMessageHtml() {
         $html = '';
 
         if (false !== $error = $this->getError()) {
             $html = $this->renderTemplate(
-                $this->loadTemplates('messages\error'),
-                array(
-                    'error' => $error
-                )
+                    $this->loadTemplates('messages\error'), array(
+                'error' => $error
+                    )
             );
         }
 
@@ -1947,16 +1873,14 @@ class App
      * @return string The HTML as string
      * @access protected
      */
-    protected function getHtmlInfoMessage()
-    {
+    protected function getHtmlInfoMessage() {
         $html = '';
 
         if (false !== $info = $this->getInfo()) {
             $html = $this->renderTemplate(
-                $this->loadTemplates('messages\info'),
-                array(
-                    'info' => $info
-                )
+                    $this->loadTemplates('messages\info'), array(
+                'info' => $info
+                    )
             );
         }
 
@@ -1970,32 +1894,28 @@ class App
      * @return string The HTML as string
      * @access protected
      */
-    protected function getHtmlSuccessMessage()
-    {
+    protected function getHtmlSuccessMessage() {
         $html = '';
 
         if (false !== $success = $this->getSuccess()) {
             $html = $this->renderTemplate(
-                $this->loadTemplates('messages\success'),
-                array(
-                    'success' => $success
-                )
+                    $this->loadTemplates('messages\success'), array(
+                'success' => $success
+                    )
             );
         }
 
         return $html;
     }
 
-
     /**
      * @return string
      */
-    public function getMenuHtml()
-    {
-        $html  = '<ul class="nav navbar-nav">';
+    public function getMenuHtml() {
+        $html = '<ul class="nav navbar-nav">';
         $html .= '<li>&nbsp;</li>';
-        $html .= $this->getHtmlNavigationEntry(self::ACTION_DASHBOARD,       '&nbsp;&nbsp;Cluster',         'glyphicon glyphicon-cloud');
-        $html .= $this->getHtmlNavigationEntry(self::ACTION_HOST_DETAILS,    '&nbsp;&nbsp;Host',            'glyphicon glyphicon-stats');
+        $html .= $this->getHtmlNavigationEntry(self::ACTION_DASHBOARD, '&nbsp;&nbsp;Cluster', 'glyphicon glyphicon-cloud');
+        $html .= $this->getHtmlNavigationEntry(self::ACTION_HOST_DETAILS, '&nbsp;&nbsp;Host', 'glyphicon glyphicon-stats');
         $html .= $this->getHtmlNavigationEntry(self::ACTION_DATA_MANAGEMENT, '&nbsp;&nbsp;Data', 'glyphicon glyphicon-tags');
         //$html .= $this->getHtmlNavigationEntry(self::ACTION_MEMORY_DETAILS,  '&nbsp;&nbsp;Memory',  'glyphicon glyphicon-tasks');
 
@@ -2003,21 +1923,21 @@ class App
 
         // Check for additional controls required ...
         if (
-            $this->getAction() !== 1 && (
+                $this->getAction() !== 1 && (
                 $this->getAction() === self::ACTION_HOST_DETAILS ||
                 $this->getAction() === self::ACTION_DATA_MANAGEMENT ||
                 $this->getAction() === self::ACTION_MEMORY_DETAILS
-            )
+                )
         ) {
 
-            $activeHost       = $this->getActiveHost();
-            $hosts            = $this->getHosts();
+            $activeHost = $this->getActiveHost();
+            $hosts = $this->getHosts();
             $htmlHostDropdown = '';
 
             if (count($hosts) > 1) {
                 foreach ($hosts as $host) {
                     $htmlHostDropdown .= '<li role="presentation"><a role="menuitem" tabindex="-1" href="' .
-                        $this->getLinkForAction($this->getAction(), array('host' => $host)) . '">' . $host . '</a></li>';
+                            $this->getLinkForAction($this->getAction(), array('host' => $host)) . '">' . $host . '</a></li>';
                 }
 
                 $html .= '<li>';
@@ -2037,7 +1957,7 @@ class App
         }
 
         $html .= '<li>';
-        $html .= '<p class="navbar-text pull-right">Signed in as <b>' . $this->getConfig()->username .'</b></p>';
+        $html .= '<p class="navbar-text pull-right">Signed in as <b>' . $this->getConfig()->username . '</b></p>';
         $html .= '</li>';
 
         $html .= '<li>';
@@ -2060,17 +1980,16 @@ class App
      * @return string Generated HTML as string
      * @access protected
      */
-    protected function getHtmlNavigationEntry($action, $title, $glyphicon = '')
-    {
+    protected function getHtmlNavigationEntry($action, $title, $glyphicon = '') {
         // Retrieve the active host
         $host = $this->getActiveHost(true);
 
         // Build URL for action passed and active host!
         $url = $this->getUrl(
-            array(
-                self::ARGUMENT_ACTION => $action,
-                self::ARGUMENT_HOST   => $host[0] . ':' . $host[1],
-            )
+                array(
+                    self::ARGUMENT_ACTION => $action,
+                    self::ARGUMENT_HOST => $host[0] . ':' . $host[1],
+                )
         );
 
         // The name of the class
@@ -2078,15 +1997,14 @@ class App
 
         // Render the HTML from template entry
         return $this->renderString(
-            $this->loadTemplates(
-                'navigation/entry'
-            ),
-            array(
-                'glyphicon' => $glyphicon,
-                'url'       => $url,
-                'title'     => $title,
-                'className' => $className,
-            )
+                        $this->loadTemplates(
+                                'navigation/entry'
+                        ), array(
+                    'glyphicon' => $glyphicon,
+                    'url' => $url,
+                    'title' => $title,
+                    'className' => $className,
+                        )
         );
     }
 
@@ -2099,9 +2017,8 @@ class App
      * @return array Containing the result
      * @access protected
      */
-    protected function getSettings($host)
-    {
-        $host   = explode(':', $host);
+    protected function getSettings($host) {
+        $host = explode(':', $host);
         $client = $this->getMemcachedClient($host[0], $host[1], $this->getConfig()->timeout);
 
         return $client->stats(CLIENT::STATS_TYPE_SETTINGS);
@@ -2116,18 +2033,15 @@ class App
      * @return array The aggregated statistics
      * @access protected
      */
-    protected function aggregateStatistics(array $hosts = array())
-    {
-        $result     = array();
+    protected function aggregateStatistics(array $hosts = array()) {
+        $result = array();
         $statistics = array();
 
         // Passed host(s) to this method
         foreach ($hosts as $host) {
-            $currentHost       = explode(':', $host);
-            $client            = $this->getMemcachedClient(
-                $currentHost[0],
-                $currentHost[1],
-                $this->getConfig()->timeout
+            $currentHost = explode(':', $host);
+            $client = $this->getMemcachedClient(
+                    $currentHost[0], $currentHost[1], $this->getConfig()->timeout
             );
             $statistics[$host] = $client->stats();
         }
@@ -2144,7 +2058,7 @@ class App
                 if (is_double($value) || is_int($value)) {
                     $result[$key] += $value;
                 } else {
-                    $result[$key]  = $value;
+                    $result[$key] = $value;
                 }
             }
         }
@@ -2162,8 +2076,7 @@ class App
      * @return string The link to phpMemAdmin
      * @access protected
      */
-    protected function getLinkForAction($action = null, array $arguments = array())
-    {
+    protected function getLinkForAction($action = null, array $arguments = array()) {
         $link = $_SERVER['PHP_SELF'];
         $link = $link . ($action !== null) ? '?action=' . $action : '';
 
@@ -2184,8 +2097,7 @@ class App
      * @return string The URL
      * @access protected
      */
-    protected function getUrl(array $arguments = array(), $prefix = '', $anchor = '')
-    {
+    protected function getUrl(array $arguments = array(), $prefix = '', $anchor = '') {
         $pageUrl = 'http';
 
         if (isset($_SERVER['HTTPS']) === true && $_SERVER['HTTPS'] === 'on') {
@@ -2193,15 +2105,14 @@ class App
         }
 
         $pageUrl .= '://' . $prefix;
-
-        if ($_SERVER['SERVER_PORT'] !== '80') {
-            $pageUrl .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['PHP_SELF'];
-
-        } else {
-            $pageUrl .= $_SERVER['SERVER_NAME'] . $_SERVER['PHP_SELF'];
-
-        }
-
+        $pageUrl .= $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+//        if ($_SERVER['SERVER_PORT'] !== '80') {
+//            $pageUrl .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['PHP_SELF'];
+//
+//        } else {
+//            $pageUrl .= $_SERVER['SERVER_NAME'] . $_SERVER['PHP_SELF'];
+//
+//        }
         // Add arguments if passed ...
         if (count($arguments) > 0) {
             foreach ($arguments as $key => $value) {
@@ -2223,24 +2134,23 @@ class App
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function authenticate()
-    {
+    protected function authenticate() {
         // Get credentials stored ...
         $credentials = $this->getCredentials();
-        $username    = $credentials['username'];
-        $password    = $credentials['password'];
+        $username = $credentials['username'];
+        $password = $credentials['password'];
 
         // Check if $username set = login required!
         if (
-            $username !== null &&
-            !($this->getAction() === self::ACTION_NEUTRAL) &&
-            !($this->getAction() === self::ACTION_LOGOUT && $username === 'logout' && $password === 'logout')
+                $username !== null &&
+                !($this->getAction() === self::ACTION_NEUTRAL) &&
+                !($this->getAction() === self::ACTION_LOGOUT && $username === 'logout' && $password === 'logout')
         ) {
             if (
-                isset($_SERVER['PHP_AUTH_USER']) === false     ||
-                isset($_SERVER['PHP_AUTH_PW'])   === false     ||
-                $_SERVER['PHP_AUTH_USER']        !== $username ||
-                $_SERVER['PHP_AUTH_PW']          !== $password
+                    isset($_SERVER['PHP_AUTH_USER']) === false ||
+                    isset($_SERVER['PHP_AUTH_PW']) === false ||
+                    $_SERVER['PHP_AUTH_USER'] !== $username ||
+                    $_SERVER['PHP_AUTH_PW'] !== $password
             ) {
                 Header('WWW-Authenticate: Basic realm="phpMemAdmin | Login"');
                 Header('HTTP/1.0 401 Unauthorized');
@@ -2251,6 +2161,96 @@ class App
 
         // Return this instance ...
         return $this;
+    }
+
+    protected $memcache;
+
+    function maybe_unserialize($original) {
+        if ($this->is_serialized($original)) // don't attempt to unserialize data that wasn't serialized going in
+            return @unserialize($original);
+        return $original;
+    }
+
+    function is_serialized($value, &$result = null) {
+        // Bit of a give away this one
+        if (!is_string($value)) {
+            return false;
+        }
+
+        // Serialized false, return true. unserialize() returns false on an
+        // invalid string or it could return false if the string is serialized
+        // false, eliminate that possibility.
+        if ($value === 'b:0;') {
+            $result = false;
+            return true;
+        }
+
+        $length = strlen($value);
+        $end = '';
+
+        if (!isset($value[0]))
+            return false;
+        switch ($value[0]) {
+            case 's':
+                if ($value[$length - 2] !== '"') {
+                    return false;
+                }
+            case 'b':
+            case 'i':
+            case 'd':
+                // This looks odd but it is quicker than isset()ing
+                $end .= ';';
+            case 'a':
+            case 'O':
+                $end .= '}';
+                if ($value[1] !== ':') {
+                    return false;
+                }
+
+                switch ($value[2]) {
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                    case 9:
+                        break;
+
+                    default:
+                        return false;
+                }
+            case 'N':
+                $end .= ';';
+                if ($value[$length - 1] !== $end[0]) {
+                    return false;
+                }
+                break;
+
+            default:
+                return false;
+        }
+
+        if (($result = @unserialize($value)) === false) {
+            $result = null;
+            return false;
+        }
+        return true;
+    }
+
+    function array_map_deep($array, $callback) {
+        $new = array();
+        foreach ((array) $array as $key => $val) {
+            if (is_array($val)) {
+                $new[$key] = $this->array_map_deep($val, $callback);
+            } else {
+                $new[$key] = call_user_func($callback, $val);
+            }
+        }
+        return $new;
     }
 
     /**
@@ -2265,64 +2265,50 @@ class App
      * @return array List of entries indexed by key
      * @access protected
      */
-    protected function dumpEntries($host, $port, $namespace = null, $flat = false)
-    {
+    protected function dumpEntries($host, $port, $namespace = null, $flat = false) {
         // Assume empty result
         $result = array();
 
-        $client = $this->getMemcachedClient($host, $port, $this->getConfig()->timeout);
-
-        // Fetch all keys and all values ...
-        $allSlabs  = $client->stats(Client::STATS_TYPE_SLABS);
-        $items     = $client->stats(Client::STATS_TYPE_ITEMS);
-
-        if (isset($slabs['active_slabs']) === true) {
-            unset($slabs['active_slabs']);
-        }
-
-        if (isset($slabs['total_malloced']) === true) {
-            unset($slabs['total_malloced']);
-        }
-
-        foreach ($allSlabs AS $slabId => $slabMeta) {
-
-            $cachedump = $client->stats(
-                Client::STATS_TYPE_CACHEDUMP,
-                (int)$slabId,
-                Client::CACHEDUMP_ITEMS_MAX
-            );
-
-            foreach($cachedump as $key => $value) {
-
-                if ($flat === true) {
-                    $metaData = $client->gets(array($key), true);
-
-                    $result[] = array(
-                        'key'    => $key,
-                        'value'  => $metaData[$key]['value'],
-                        'cas'    => $metaData[$key]['meta']['cas'],
-                        'frames' => $metaData[$key]['meta']['frames'],
-                        'flags'  => $metaData[$key]['meta']['flags'],
-                    );
-
-                } else {
-                    $result[$key] = array(
-                        'raw'    => $value,
-                        'value'  => $client->gets(array($key)),
-                        'server' => $host . ':' . $port,
-                        'slabId' => $slabId,
-                        'age'    => $items['items'][$slabId]['age'],
-                    );
+        $this->memcache = new \Memcache();
+        $this->memcache->addServer("$host:$port");
+        $list = array();
+        $allSlabs = $this->memcache->getExtendedStats('slabs');
+        $items = $this->memcache->getExtendedStats('items');
+        foreach ($allSlabs as $server => $slabs) {
+            foreach ($slabs AS $slabId => $slabMeta) {
+                if ('active_slabs' == $slabId || "total_malloced" == $slabId)
+                    continue;
+                $cdump = $this->memcache->getExtendedStats('cachedump', (int) $slabId);
+                foreach ($cdump AS $server => $entries) {
+                    if ($entries) {
+                        foreach ($entries AS $eName => $eData) {
+                            $value = $this->memcache->get($eName);
+                            $type = gettype($value);
+                            if ($this->config->try_unserialize) {
+                                $value = $this->maybe_unserialize($value);
+                                if (is_object($value) || is_array($value)) {
+                                    $value = is_object($value) ? json_decode(json_encode($value), true) : $value;
+                                    $value = print_r($this->array_map_deep($value, array($this, 'maybe_unserialize')), true);
+                                }
+                            }
+                            $result[] = array(
+                                'key' => $eName,
+                                'value' => $value,
+                                'cas' => "",
+                                'frames' => "",
+                                'flags' => "",
+                            );
+                        }
+                    }
                 }
             }
         }
-
         return $result;
     }
 
-    /*-----------------------------------------------------------------------------------------------------------------+
-    | Internal setter & getter
-    +-----------------------------------------------------------------------------------------------------------------*/
+    /* -----------------------------------------------------------------------------------------------------------------+
+      | Internal setter & getter
+      +----------------------------------------------------------------------------------------------------------------- */
 
     /**
      * Setter for title.
@@ -2333,8 +2319,7 @@ class App
      * @return void
      * @access protected
      */
-    protected function setTitle($title)
-    {
+    protected function setTitle($title) {
         $this->title = $title;
     }
 
@@ -2347,8 +2332,7 @@ class App
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function title($title)
-    {
+    protected function title($title) {
         $this->setTitle($title);
         return $this;
     }
@@ -2360,8 +2344,7 @@ class App
      * @return string The title of the application
      * @access protected
      */
-    protected function getTitle()
-    {
+    protected function getTitle() {
         return $this->title;
     }
 
@@ -2374,8 +2357,7 @@ class App
      * @return void
      * @access protected
      */
-    protected function setAction($action)
-    {
+    protected function setAction($action) {
         $this->action = $action;
     }
 
@@ -2388,8 +2370,7 @@ class App
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function action($action)
-    {
+    protected function action($action) {
         $this->setAction($action);
         return $this;
     }
@@ -2401,8 +2382,7 @@ class App
      * @return int The current action if set, otherwise NULL
      * @access public
      */
-    public function getAction()
-    {
+    public function getAction() {
         return $this->action;
     }
 
@@ -2415,8 +2395,7 @@ class App
      * @return void
      * @access protected
      */
-    protected function setDateFormat($dateFormat)
-    {
+    protected function setDateFormat($dateFormat) {
         $this->dateFormat = $dateFormat;
     }
 
@@ -2429,8 +2408,7 @@ class App
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function dateFormat($dateFormat)
-    {
+    protected function dateFormat($dateFormat) {
         $this->setDateFormat($dateFormat);
         return $this;
     }
@@ -2442,8 +2420,7 @@ class App
      * @return string The active date-time format
      * @access protected
      */
-    protected function getDateFormat()
-    {
+    protected function getDateFormat() {
         return $this->dateFormat;
     }
 
@@ -2456,8 +2433,7 @@ class App
      * @return void
      * @access protected
      */
-    protected function setBaseUrl($baseUrl)
-    {
+    protected function setBaseUrl($baseUrl) {
         $this->baseUrl = $baseUrl;
     }
 
@@ -2470,8 +2446,7 @@ class App
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function baseUrl($baseUrl)
-    {
+    protected function baseUrl($baseUrl) {
         $this->setBaseUrl($baseUrl);
         return $this;
     }
@@ -2483,8 +2458,7 @@ class App
      * @return string The base URL for this instance
      * @access protected
      */
-    protected function getBaseUrl()
-    {
+    protected function getBaseUrl() {
         return $this->baseUrl;
     }
 
@@ -2497,8 +2471,7 @@ class App
      * @return void
      * @access protected
      */
-    protected function setClient(Client $client)
-    {
+    protected function setClient(Client $client) {
         $this->client = $client;
     }
 
@@ -2511,8 +2484,7 @@ class App
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function client(Client $client)
-    {
+    protected function client(Client $client) {
         $this->setClient($client);
         return $this;
     }
@@ -2524,8 +2496,7 @@ class App
      * @return \Clickalicious\Memcached\Client|null $client The client if set, otherwise NULL
      * @access protected
      */
-    protected function getClient()
-    {
+    protected function getClient() {
         return $this->client;
     }
 
@@ -2538,8 +2509,7 @@ class App
      * @return void
      * @access protected
      */
-    protected function setClients(array $clients)
-    {
+    protected function setClients(array $clients) {
         $this->clients = $clients;
     }
 
@@ -2552,8 +2522,7 @@ class App
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function clients(array $clients)
-    {
+    protected function clients(array $clients) {
         $this->setClients($clients);
         return $this;
     }
@@ -2565,8 +2534,7 @@ class App
      * @return \Clickalicious\Memcached\Client[] The clients if set, otherwise empty array
      * @access protected
      */
-    protected function getClients()
-    {
+    protected function getClients() {
         return $this->clients;
     }
 
@@ -2580,8 +2548,7 @@ class App
      * @return void
      * @access protected
      */
-    protected function setCredentials($username, $password)
-    {
+    protected function setCredentials($username, $password) {
         $this->credentials['username'] = $username;
         $this->credentials['password'] = $password;
     }
@@ -2596,8 +2563,7 @@ class App
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function credentials($username, $password)
-    {
+    protected function credentials($username, $password) {
         $this->setCredentials($username, $password);
         return $this;
     }
@@ -2609,8 +2575,7 @@ class App
      * @return array The credentials
      * @access protected
      */
-    protected function getCredentials()
-    {
+    protected function getCredentials() {
         return $this->credentials;
     }
 
@@ -2623,8 +2588,7 @@ class App
      * @return void
      * @access protected
      */
-    protected function setHosts(array $hosts)
-    {
+    protected function setHosts(array $hosts) {
         $this->hosts = $hosts;
     }
 
@@ -2637,8 +2601,7 @@ class App
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function hosts(array $hosts)
-    {
+    protected function hosts(array $hosts) {
         foreach ($hosts as $host) {
             $hostCollection[] = $host->host . ':' . $host->port;
         }
@@ -2653,8 +2616,7 @@ class App
      * @return array The list of hosts
      * @access protected
      */
-    protected function getHosts()
-    {
+    protected function getHosts() {
         return $this->hosts;
     }
 
@@ -2667,8 +2629,7 @@ class App
      * @return void
      * @access protected
      */
-    protected function setCluster($cluster)
-    {
+    protected function setCluster($cluster) {
         $this->cluster = $cluster;
     }
 
@@ -2681,8 +2642,7 @@ class App
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function cluster($cluster)
-    {
+    protected function cluster($cluster) {
         $this->setCluster($cluster);
         return $this;
     }
@@ -2694,8 +2654,7 @@ class App
      * @return string The name of the cluster
      * @access protected
      */
-    protected function getCluster()
-    {
+    protected function getCluster() {
         return $this->cluster;
     }
 
@@ -2708,8 +2667,7 @@ class App
      * @return void
      * @access protected
      */
-    protected function setConfig(\stdClass $config)
-    {
+    protected function setConfig(\stdClass $config) {
         $this->config = $config;
     }
 
@@ -2722,8 +2680,7 @@ class App
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function config(\stdClass $config)
-    {
+    protected function config(\stdClass $config) {
         $this->setConfig($config);
         return $this;
     }
@@ -2735,8 +2692,7 @@ class App
      * @return \stdClass config
      * @access protected
      */
-    protected function getConfig()
-    {
+    protected function getConfig() {
         return $this->config;
     }
 
@@ -2749,8 +2705,7 @@ class App
      * @return void
      * @access protected
      */
-    protected function setError($error)
-    {
+    protected function setError($error) {
         $this->error = $error;
     }
 
@@ -2763,8 +2718,7 @@ class App
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function error($error)
-    {
+    protected function error($error) {
         $this->setError($error);
         return $this;
     }
@@ -2776,8 +2730,7 @@ class App
      * @return string Error
      * @access protected
      */
-    protected function getError()
-    {
+    protected function getError() {
         return $this->error;
     }
 
@@ -2790,8 +2743,7 @@ class App
      * @return void
      * @access protected
      */
-    protected function setSuccess($success)
-    {
+    protected function setSuccess($success) {
         $this->success = $success;
     }
 
@@ -2804,8 +2756,7 @@ class App
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function success($success)
-    {
+    protected function success($success) {
         $this->setSuccess($success);
         return $this;
     }
@@ -2817,8 +2768,7 @@ class App
      * @return string The success message
      * @access protected
      */
-    protected function getSuccess()
-    {
+    protected function getSuccess() {
         return $this->success;
     }
 
@@ -2831,8 +2781,7 @@ class App
      * @return void
      * @access protected
      */
-    protected function setInfo($info)
-    {
+    protected function setInfo($info) {
         $this->info = $info;
     }
 
@@ -2845,8 +2794,7 @@ class App
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function info($info)
-    {
+    protected function info($info) {
         $this->setInfo($info);
         return $this;
     }
@@ -2858,14 +2806,13 @@ class App
      * @return string The info message
      * @access protected
      */
-    protected function getInfo()
-    {
+    protected function getInfo() {
         return $this->info;
     }
 
-    /*------------------------------------------------------------------------------------------------------------------
-    | Internal Helper & Tools
-    +-----------------------------------------------------------------------------------------------------------------*/
+    /* ------------------------------------------------------------------------------------------------------------------
+      | Internal Helper & Tools
+      +----------------------------------------------------------------------------------------------------------------- */
 
     /**
      * Formats a number to display it better readable.
@@ -2877,8 +2824,7 @@ class App
      * @return string The formatted value
      * @access protected
      */
-    protected function formatNumberAsText($value, $lineEnding = '&crarr;')
-    {
+    protected function formatNumberAsText($value, $lineEnding = '&crarr;') {
         $formatted = decbin($value);
         $formatted = str_pad($formatted, 64, 0, STR_PAD_LEFT);
         $formatted = str_split($formatted, 16);
@@ -2895,17 +2841,16 @@ class App
      * @access protected
      * @throws Exception
      */
-    protected function getMemcachedLatestVersion()
-    {
+    protected function getMemcachedLatestVersion() {
         if (ini_get('allow_url_fopen') !== '1') {
             throw new Exception(
-                'URL aware wrappers are disabled! Check "allow_url_fopen" in your systems php.ini ' .
-                'OR disable update check in your config.'
+            'URL aware wrappers are disabled! Check "allow_url_fopen" in your systems php.ini ' .
+            'OR disable update check in your config.'
             );
         }
 
         $homepage = file_get_contents(self::MEMCACHED_VERSION_URL);
-        $result   = preg_match('/<div id="ver">v([\w\.].*)<\/div>/miu', $homepage, $matches);
+        $result = preg_match('/<div id="ver">v([\w\.].*)<\/div>/miu', $homepage, $matches);
 
         if ($result > 0) {
             $result = htmlentities(strip_tags($matches[1]));
@@ -2925,8 +2870,7 @@ class App
      * @return void
      * @access protected
      */
-    protected function redirect($url)
-    {
+    protected function redirect($url) {
         header('HTTP/1.1 307 Temporary Redirect');
         header('Location: ' . $url);
     }
@@ -2938,8 +2882,7 @@ class App
      * @return string The calculated UUID
      * @access protected
      */
-    protected function uuid()
-    {
+    protected function uuid() {
         return sha1(implode('.', func_get_args()));
     }
 
@@ -2952,27 +2895,25 @@ class App
      * @return mixed The resulting value
      * @access protected
      */
-    protected function castAsPhpType($value)
-    {
+    protected function castAsPhpType($value) {
         // We only check string values for type - object and array not - and double and int can keep as they are.
         if (is_string($value) === true && is_numeric($value) === true) {
             // Try to map a string or some similar type of a real type in PHP
-
             // Try INT
-            if ((int)$value . "" === $value) {
-                $value = (int)$value;
+            if ((int) $value . "" === $value) {
+                $value = (int) $value;
 
                 // Try DOUBLE
-            } elseif ((double)$value . "" === $value) {
-                $value = (double)$value;
+            } elseif ((double) $value . "" === $value) {
+                $value = (double) $value;
 
                 // Try BOOL
-            } elseif ((bool)$value . "" === $value) {
-                $value = (bool)$value;
-
+            } elseif ((bool) $value . "" === $value) {
+                $value = (bool) $value;
             }
         }
 
         return $value;
     }
+
 }

@@ -12,15 +12,6 @@
         {{bytes}}
     </td>
     <td>
-        {{valueType}}
-    </td>
-    <td>
-        {{flags}}
-    </td>
-    <td>
-        {{cas}}
-    </td>
-    <td>
         {{buttons}}
     </td>
 </tr>
