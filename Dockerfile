@@ -1,5 +1,6 @@
 FROM webdevops/php-nginx:debian-8-php7
-
+# Move server config files
+COPY opt /
 ADD . /app
 
 RUN apt-get update && apt-get install -y nano memcached php-memcache && cd /app && composer install
