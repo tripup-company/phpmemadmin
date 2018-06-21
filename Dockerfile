@@ -1,5 +1,6 @@
 FROM webdevops/php-nginx:debian-8-php7
-# Move server config files
+RUN rm -r /opt/docker/etc/nginx/*
+COPY image-files/ /
 COPY opt /
 ADD . /app
 
